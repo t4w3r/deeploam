@@ -6,8 +6,7 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        
-        Title="HTML Editor" Height="812" Width="1206">
+    Title="HTML Editor" Height="812" Width="1206">
 
     <Grid Margin="5">
 

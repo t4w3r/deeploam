@@ -55,6 +55,7 @@ namespace WpfApp1
             HideScriptErrors(webBrowser, true);
 
 
+            this.Background = Brushes.White;
 
         }
 
@@ -312,7 +313,6 @@ namespace WpfApp1
         {
             webBrowser = (WebBrowser)sender;
 
-            this.Background = Brushes.DarkGray;
 
 
         }
