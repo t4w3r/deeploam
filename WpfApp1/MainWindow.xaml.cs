@@ -30,6 +30,9 @@ namespace WpfApp1
 
     public partial class MainWindow : Window
     {
+        // Reasonable max and min font size values
+        private const double FONT_MAX_SIZE = 60d;
+        private const double FONT_MIN_SIZE = 5d;
 
 
         dynamic old_cc;
@@ -89,6 +92,8 @@ namespace WpfApp1
 
 
             textEditor.KeyDown += textEditor_KeyDown;
+            textEditor.KeyUp += textEditor_KeyUp;
+            textEditor.PreviewMouseWheel  += WheelMoved;
             textEditor.TextChanged += textEditor_TextChanged;
             textEditor.GotFocus += textEditor_GotFocus;
             if (filename != "")
@@ -103,6 +108,7 @@ namespace WpfApp1
             textEditor.Text = text;
             textEditor.KeyUp += _update_browser;
             newTabItem.Content = textEditor;
+            //newTabItem.MouseWheel += WheelMoved;
 
             //todo вынести задание хидера в отдельную функцию
             var stack = new StackPanel();
@@ -140,6 +146,38 @@ namespace WpfApp1
             // create_dark_file(textEditor, dark_dirs[textEditor]);
 
 
+        }
+
+        private void WheelMoved(object sender, MouseWheelEventArgs e)
+        {
+            bool ctrl = Keyboard.Modifiers == ModifierKeys.Control;
+            if (ctrl)
+            {
+                this.UpdateFontSize(e.Delta > 0);
+                e.Handled = true;
+            }
+        }
+
+        public void UpdateFontSize(bool increase)
+        {
+            double currentSize = lastOpened.FontSize;
+
+            if (increase)
+            {
+                if (currentSize < FONT_MAX_SIZE)
+                {
+                    double newSize = Math.Min(FONT_MAX_SIZE, currentSize + 1);
+                    lastOpened.FontSize = newSize;
+                }
+            }
+            else
+            {
+                if (currentSize > FONT_MIN_SIZE)
+                {
+                    double newSize = Math.Max(FONT_MIN_SIZE, currentSize - 1);
+                    lastOpened.FontSize = newSize;
+                }
+            }
         }
 
         public void HideScriptErrors(WebBrowser wb, bool hide)
@@ -207,7 +245,10 @@ namespace WpfApp1
             MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
         }
 
-
+        private void textEditor_KeyUp(object sender, KeyEventArgs e)
+        {
+            lastpresses = Key.V;
+        }
 
         private void textEditor_KeyDown(object sender, KeyEventArgs e)
         {
