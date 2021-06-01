@@ -3,35 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         
         Title="HTML Editor" Height="800" Width="1200">
 
-    <Grid Margin="0,0,-8,-21">
+    <Grid Margin="5">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="97*"/>
-            <ColumnDefinition Width="503*"/>
-            <ColumnDefinition Width="600*"/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <TabControl HorizontalAlignment="Left" Height="747" Margin="0,33,0,0" VerticalAlignment="Top" Initialized="TabControl_Initialized" Width="1190" Grid.ColumnSpan="3" MouseDoubleClick="TabControl_MouseDoubleClick">
-            <TabItem Header="NewTab" GotFocus="TabItem_GotFocus">
-
-                <Grid Background="#FFE5E5E5" Margin="0,0,590,0">
-                    <avalonEdit:TextEditor
-    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-    Name="textEditor"
-    FontFamily="Consolas"
-    SyntaxHighlighting="HTML"
-    FontSize="10pt" KeyDown="textEditor_KeyDown" TextChanged="textEditor_TextChanged" Initialized="maintab_init" ShowLineNumbers="True"/>
-                </Grid>
 
 
 
 
-            </TabItem>
-        </TabControl>
-        <WebBrowser HorizontalAlignment="Stretch" Height="747" VerticalAlignment="Top" Initialized="WebBrowser_Initialized" Grid.Column="2" Margin="5,33,5,0" />
-        <ToolBar Initialized="ToolBarPanel_Initialized" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="1195" Grid.ColumnSpan="3"/>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1188"/>
+        </Grid.ColumnDefinitions>-->
+
+
+
+        <!--<WindowsFormsHost Name="webBrowser">
+            <WindowsFormsHost.Child>
+                <wf:WebBrowser />
+            </WindowsFormsHost.Child>
+        </WindowsFormsHost>-->
+        <WebBrowser x:Name="webBrowser"  HorizontalAlignment="Right" VerticalAlignment="Top" Initialized="WebBrowser_Initialized" Margin="0,0,-337,0" Grid.Column="1" Width="637" Height="755" RenderTransformOrigin="0.517,0.498" />
+        <ToolBar Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="302" >
+            <Button x:Name="of_btn" Height="23" VerticalAlignment="Top" Width="23" Click="open_butt_clicked" Initialized="open_butt_init" />
+            <Button x:Name="sf_btn" Height="23" VerticalAlignment="Top" Width="23" Click="save_butt_clicked" Initialized="save_butt_init"/>
+            <Separator/>
+            <Button x:Name="cmp_btn" Height="23" VerticalAlignment="Top" Width="23" Click="compare_butt_clicked" Initialized="cmp_butt_init" />
+            <Separator/>
+            <Button x:Name="undo_btn" Height="23" VerticalAlignment="Top" Width="23" Click="undo_butt_clicked" Initialized="undo_butt_init" />
+            <Button x:Name="redo_btn" Height="23" VerticalAlignment="Top" Width="23" Click="redo_butt_clicked" Initialized="redo_butt_init" />
+            <Separator/>
+            <Button x:Name="search_btn" Height="23" VerticalAlignment="Top" Width="23" Click="search_butt_clicked" Initialized="search_butt_init" />
+            <Button x:Name="far_btn" Height="23" VerticalAlignment="Top" Width="23" Click="far_butt_clicked" Initialized="far_butt_init" />
+            <Separator/>
+            <Button x:Name="cut_btn" Height="23" VerticalAlignment="Top" Width="23" Click="cut_butt_clicked" Initialized="cut_butt_init" />
+            <Button x:Name="copy_btn" Height="23" VerticalAlignment="Top" Width="23" Click="copy_butt_clicked" Initialized="copy_butt_init" />
+            <Button x:Name="paste_btn" Height="23" VerticalAlignment="Top" Width="23" Click="paste_butt_clicked" Initialized="paste_butt_init" />
+            <Separator/>
+            <Button x:Name="info_btn" Height="23" VerticalAlignment="Top" Width="23" Click="info_butt_clicked" Initialized="info_butt_init" />
+        </ToolBar>
+
+
+        <TabControl x:Name="tabControl" Height="732" Margin="0,33,0,0" VerticalAlignment="Top" MouseDoubleClick="TabControl_MouseDoubleClick" HorizontalAlignment="Left" Width="500" />
     </Grid>
+
 </Window>

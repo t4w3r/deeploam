@@ -15,24 +15,29 @@ using System.Windows;
 namespace WpfApp1
 {
 
-    public class ColorizeAvalonEdit : DocumentColorizingTransformer
+    public class ColorizeAvalonEdit : DocumentColorizingTransformer    
     {
         int lineind;
         TextEditor curreditor;
 
-        public ColorizeAvalonEdit(int linendex, TextEditor curredit)
+        public ColorizeAvalonEdit(int linendex,ref TextEditor curredit)
         {
-            lineind = linendex;
+            lineind = linendex-1;
             curreditor = curredit;
         }
 
+            
         protected override void ColorizeLine(DocumentLine line)
         {
             string text = curreditor.Document.GetText(line);
-            int start = 0;
-            int index;
-            this.ChangeLinePart(line.Offset, line.Offset, element => element.TextRunProperties.SetForegroundBrush(Brushes.Green));
-            
+            Action<VisualLineElement> act = element => element.TextRunProperties.SetBackgroundBrush(Brushes.Green);
+            if (act != null && line != null && text != "" && lineind != 0)
+                base.ChangeLinePart(line.Offset, text.Length, act);
+
+            curreditor.TextArea.TextView.Redraw();
+
+
+
             //while ((index = text.IndexOf("", start)) >= 0)
             //{
             //MessageBox.Show($"{text} ");
@@ -63,6 +68,8 @@ namespace WpfApp1
 
         }
 
+
+        
 
         public void Colorize(DocumentLine line)
         {

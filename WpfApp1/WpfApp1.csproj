@@ -34,6 +34,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=6.1.1.20, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.6.1.1\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
@@ -53,6 +61,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -73,8 +82,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="models\cmp_win.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="models\cmp_win.xaml.cs">
+      <DependentUpon>cmp_win.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -100,6 +116,40 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\cmp.png" />
+    <Resource Include="img\sf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\far.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\of.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
