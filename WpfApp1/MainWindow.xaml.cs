@@ -58,7 +58,7 @@ namespace WpfApp1
             HideScriptErrors(webBrowser, true);
 
 
-            this.Background = Brushes.White;
+
 
         }
 
@@ -96,6 +96,8 @@ namespace WpfApp1
             textEditor.PreviewMouseWheel  += WheelMoved;
             textEditor.TextChanged += textEditor_TextChanged;
             textEditor.GotFocus += textEditor_GotFocus;
+            textEditor.ShowLineNumbers = true;
+            textEditor.MouseRightButtonUp += mouseupte;
             if (filename != "")
             {
                 if (filename.Split('.')[1] == "html")
@@ -157,6 +159,20 @@ namespace WpfApp1
                 e.Handled = true;
             }
         }
+
+        private void mouseupte(object sender, MouseEventArgs e)
+        {
+            ContextMenu menu = new ContextMenu();
+            Button btn = new Button();
+            btn.Content = "Paste";
+            btn.Click += paste_butt_clicked;
+            btn.Margin = new Thickness(0,0,0,0);
+            menu.Items.Add(btn);
+            
+            lastOpened.ContextMenu = menu;
+        }
+
+
 
         public void UpdateFontSize(bool increase)
         {
@@ -224,11 +240,11 @@ namespace WpfApp1
         }
         private void cut_butt_clicked(object sender, EventArgs e)
         {
-            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
+            lastOpened.Cut();
         }
         private void search_butt_clicked(object sender, EventArgs e)
         {
-            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
+            ICSharpCode.AvalonEdit.Search.SearchPanel sp = ICSharpCode.AvalonEdit.Search.SearchPanel.Install(lastOpened);
         }
 
         private void far_butt_clicked(object sender, EventArgs e)
@@ -238,9 +254,19 @@ namespace WpfApp1
 
         private void redo_butt_clicked(object sender, EventArgs e)
         {
-            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
+            lastOpened.Redo();
         }
         private void undo_butt_clicked(object sender, EventArgs e)
+        {
+            lastOpened.Undo();
+        }
+
+        private void light_butt_clicked(object sender, EventArgs e)
+        {
+            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
+        }
+
+        private void dark_butt_clicked(object sender, EventArgs e)
         {
             MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
         }
@@ -595,6 +621,22 @@ namespace WpfApp1
             ((Button)sender).Content = image;
         }
 
+        private void light_butt_init(object sender, EventArgs e)
+        {
+            Uri path = new Uri("img\\light.png", UriKind.Relative);
+            BitmapImage bitmapImage = new BitmapImage(path);
+            Image image = new Image() { Source = bitmapImage };
+            ((Button)sender).Content = image;
+        }
+
+        private void dark_butt_init(object sender, EventArgs e)
+        {
+            Uri path = new Uri("img\\dark.png", UriKind.Relative);
+            BitmapImage bitmapImage = new BitmapImage(path);
+            Image image = new Image() { Source = bitmapImage };
+            ((Button)sender).Content = image;
+        }
+
         private void save_butt_clicked(object sender, EventArgs e)
         {
             String text = lastOpened.Text;
@@ -679,7 +721,10 @@ namespace WpfApp1
             }
         }
 
-
+        private void MenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
+        }
     }
 }
 
