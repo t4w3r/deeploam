@@ -40,7 +40,7 @@ namespace WpfApp1
         int tab_index = 1;
         TextEditor lastOpened;
         Window compare_win;
-
+        bool IsDark = false;
 
         Dictionary<TextEditor, string> directories = new Dictionary<TextEditor, string>();
 
@@ -50,28 +50,47 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-
             add_new_tab("");
-
             lastOpened = (TextEditor)((TabItem)(tabControl.Items[0])).Content;
-
             HideScriptErrors(webBrowser, true);
-
-
-
 
         }
 
-        //private void create_dark_file(TextEditor te, string path)
-        //{
-        //    if (File.Exists(path))
-        //        File.SetAttributes(path, FileAttributes.Normal);
-        //    FileStream dark_fs = new FileStream(path, FileMode.Create);
-        //    dark_fs.Write(Encoding.UTF8.GetBytes(te.Text), 0, te.Text.Length);
-        //    dark_fs.Close();
-        //    File.SetAttributes("tab" + tab_index.ToString() + ".html", FileAttributes.Hidden);
-        //}
+        
 
+        private void ThemeChangeToWhite(object sender, EventArgs e)
+        {
+            IsDark = false;
+
+            lastOpened.Background = Brushes.White;
+            lastOpened.Foreground = Brushes.Black;
+            lastOpened.LineNumbersForeground = Brushes.Gray;
+            
+            // определяем путь к файлу ресурсов
+            var uri = new Uri("Themes\\ColourfulLightTheme.xaml", UriKind.Relative);
+            // загружаем словарь ресурсов
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            // очищаем коллекцию ресурсов приложения
+            Application.Current.Resources.Clear();
+            // добавляем загруженный словарь ресурсов
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+        }
+
+        private void ThemeChangeToBlack(object sender, EventArgs e)
+        {
+            IsDark = true;
+            // определяем путь к файлу ресурсовlastOpened.Background = Brushes.Gray;
+            lastOpened.Background = Brushes.Gray;
+            lastOpened.Foreground = Brushes.White;
+            lastOpened.LineNumbersForeground = Brushes.White;
+            var uri = new Uri("Themes/ColourfulDarkTheme.xaml", UriKind.Relative);
+            // загружаем словарь ресурсов
+            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
+            // очищаем коллекцию ресурсов приложения
+            Application.Current.Resources.Clear();
+            // добавляем загруженный словарь ресурсов
+            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
+        }
 
 
         private void add_new_tab(string filename, string text = "")
@@ -109,6 +128,20 @@ namespace WpfApp1
             }
             textEditor.Text = text;
             textEditor.KeyUp += _update_browser;
+            if(IsDark)
+            {
+                textEditor.Background = Brushes.Gray;
+                textEditor.Foreground = Brushes.White;
+                textEditor.LineNumbersForeground = Brushes.White;
+            }
+            else
+            {
+                textEditor.Background = Brushes.White;
+                textEditor.Foreground = Brushes.Black;
+                textEditor.LineNumbersForeground = Brushes.Gray;
+            }
+            textEditor.Options.EnableTextDragDrop = true;
+            newTabItem.DragLeave += DraggedText;
             newTabItem.Content = textEditor;
             //newTabItem.MouseWheel += WheelMoved;
 
@@ -148,6 +181,11 @@ namespace WpfApp1
             // create_dark_file(textEditor, dark_dirs[textEditor]);
 
 
+        }
+
+        private void DraggedText(object sender, DragEventArgs e)
+        {
+            Object item = e.Data.GetData(typeof(System.String));
         }
 
         private void WheelMoved(object sender, MouseWheelEventArgs e)
@@ -261,15 +299,7 @@ namespace WpfApp1
             lastOpened.Undo();
         }
 
-        private void light_butt_clicked(object sender, EventArgs e)
-        {
-            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
-        }
-
-        private void dark_butt_clicked(object sender, EventArgs e)
-        {
-            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
-        }
+        
 
         private void textEditor_KeyUp(object sender, KeyEventArgs e)
         {
@@ -627,6 +657,7 @@ namespace WpfApp1
             BitmapImage bitmapImage = new BitmapImage(path);
             Image image = new Image() { Source = bitmapImage };
             ((Button)sender).Content = image;
+            ((Button)sender).Click += ThemeChangeToWhite;
         }
 
         private void dark_butt_init(object sender, EventArgs e)
@@ -635,6 +666,7 @@ namespace WpfApp1
             BitmapImage bitmapImage = new BitmapImage(path);
             Image image = new Image() { Source = bitmapImage };
             ((Button)sender).Content = image;
+            ((Button)sender).Click += ThemeChangeToBlack;
         }
 
         private void save_butt_clicked(object sender, EventArgs e)
@@ -720,43 +752,5 @@ namespace WpfApp1
                 }
             }
         }
-
-        private void MenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("13 контейнер и весь сайт резиновым", "Справка");
-        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//ABOBA
-
-
